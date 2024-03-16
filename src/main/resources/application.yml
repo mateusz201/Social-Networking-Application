@@ -8,6 +8,8 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
+    hibernate:
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -15,3 +17,4 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         temp:
           use_jdbc_metadata_defaults: false
+    generate-ddl: true
