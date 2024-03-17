@@ -9,7 +9,6 @@ public class UserConverter {
         return new UserResponse(
                 user.getId(),
                 user.getUsername(),
-                user.getPassword(),
                 user.getEmail(),
                 user.getDescription()
         );
