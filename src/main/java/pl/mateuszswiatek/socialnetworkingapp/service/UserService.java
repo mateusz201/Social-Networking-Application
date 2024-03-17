@@ -2,9 +2,13 @@ package pl.mateuszswiatek.socialnetworkingapp.service;
 
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pl.mateuszswiatek.socialnetworkingapp.converter.PageConverter;
 import pl.mateuszswiatek.socialnetworkingapp.converter.UserConverter;
 import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreateUserRequest;
+import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponse;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.UserResponse;
 import pl.mateuszswiatek.socialnetworkingapp.entity.User;
 import pl.mateuszswiatek.socialnetworkingapp.exception.ApiException;
@@ -17,7 +21,7 @@ import static pl.mateuszswiatek.socialnetworkingapp.exception.ApiExceptionReason
 public class UserService {
     private UserRepository userRepository;
 
-    public UserResponse createUser(CreateUserRequest request){
+    public UserResponse createUser(CreateUserRequest request) {
         checkIfUsernameIsTaken(request);
         checkIfEmailIsTaken(request);
 
@@ -27,14 +31,22 @@ public class UserService {
         return UserConverter.toResponse(savedUser);
     }
 
+    public PageResponse<UserResponse> getUsers(Pageable pageable) {
+        Page<UserResponse> page = userRepository
+                .findAll(pageable)
+                .map(UserConverter::toResponse);
+
+        return PageConverter.toResponse(page);
+    }
+
     private void checkIfEmailIsTaken(CreateUserRequest request) {
-        if(userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new ApiException(EMAIL_TAKEN);
         }
     }
 
     private void checkIfUsernameIsTaken(CreateUserRequest request) {
-        if(userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUsername(request.getUsername())) {
             throw new ApiException(USERNAME_TAKEN);
         }
     }
