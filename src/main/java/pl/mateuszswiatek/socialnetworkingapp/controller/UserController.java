@@ -21,7 +21,7 @@ import pl.mateuszswiatek.socialnetworkingapp.service.UserService;
 @RequestMapping("/users")
 public class UserController {
     private UserService userService;
-    @Operation(summary = "Endpoint for creating new users")
+
     @PostMapping
     public ResponseEntity<UserResponse> createUser(
             @RequestBody @Valid CreateUserRequest request
@@ -29,7 +29,6 @@ public class UserController {
         return new ResponseEntity<>(userService.createUser(request), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Endpoint for getting users")
     @GetMapping
     public PageResponse<UserResponse> getUsers(
             @PageableDefault(size = 8, sort = "username", direction = Sort.Direction.ASC)
