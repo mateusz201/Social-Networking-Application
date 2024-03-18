@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import pl.mateuszswiatek.socialnetworkingapp.converter.PageConverter;
 import pl.mateuszswiatek.socialnetworkingapp.converter.UserConverter;
 import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreateUserRequest;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdateUserRequest;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponse;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.UserResponse;
 import pl.mateuszswiatek.socialnetworkingapp.entity.User;
@@ -45,9 +46,33 @@ public class UserService {
                 .orElseThrow(() -> new ApiException(USER_NOT_FOUND));
     }
 
+    public UserResponse updateUser(Long userId, UpdateUserRequest request){
+        checkIfEmailIsTakenByOtherId(userId, request);
+        checkIfUsernameIsTakenByOtherId(userId, request);
+
+        return userRepository.findById(userId)
+                .map(user->UserConverter.update(user,request))
+                .map(user -> userRepository.save(user))
+                .map(UserConverter::toResponse)
+                .orElseThrow(()->new ApiException(USER_NOT_FOUND));
+    }
+
+
     private void checkIfEmailIsTaken(CreateUserRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new ApiException(EMAIL_TAKEN);
+        }
+    }
+
+    private void checkIfEmailIsTakenByOtherId(Long userId, UpdateUserRequest request) {
+        if(userRepository.existsByEmailAndIdNot(request.getEmail(), userId)){
+            throw new ApiException(EMAIL_TAKEN);
+        }
+    }
+
+    private void checkIfUsernameIsTakenByOtherId(Long userId, UpdateUserRequest request) {
+        if(userRepository.existsByUsernameAndIdNot(request.getUsername(), userId)){
+            throw new ApiException(USERNAME_TAKEN);
         }
     }
 

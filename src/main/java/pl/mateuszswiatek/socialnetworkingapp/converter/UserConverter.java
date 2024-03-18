@@ -1,6 +1,7 @@
 package pl.mateuszswiatek.socialnetworkingapp.converter;
 
 import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreateUserRequest;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdateUserRequest;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.UserResponse;
 import pl.mateuszswiatek.socialnetworkingapp.entity.User;
 
@@ -21,5 +22,12 @@ public class UserConverter {
                 request.getEmail(),
                 null
         );
+    }
+
+    public static User update(User user, UpdateUserRequest request){
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+
+        return user;
     }
 }

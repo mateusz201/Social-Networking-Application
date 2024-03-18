@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreateUserRequest;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdateUserRequest;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponse;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.UserResponse;
 import pl.mateuszswiatek.socialnetworkingapp.service.UserService;
@@ -38,5 +39,13 @@ public class UserController {
     @GetMapping("/{userId}")
     public UserResponse getUserById(@PathVariable Long userId){
         return userService.getUserById(userId);
+    }
+
+    @PutMapping("/{userId}")
+    public UserResponse updateUser(
+            @PathVariable Long userId,
+            @RequestBody UpdateUserRequest request
+            ){
+        return userService.updateUser(userId,request);
     }
 }

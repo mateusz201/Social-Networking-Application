@@ -7,4 +7,6 @@ import pl.mateuszswiatek.socialnetworkingapp.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
+    boolean existsByEmailAndIdNot(String email, Long userId);
+    boolean existsByUsernameAndIdNot(String username, Long userId);
 }
