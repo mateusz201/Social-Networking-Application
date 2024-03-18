@@ -51,12 +51,17 @@ public class UserService {
         checkIfUsernameIsTakenByOtherId(userId, request);
 
         return userRepository.findById(userId)
-                .map(user->UserConverter.update(user,request))
+                .map(user -> UserConverter.update(user,request))
                 .map(user -> userRepository.save(user))
                 .map(UserConverter::toResponse)
                 .orElseThrow(()->new ApiException(USER_NOT_FOUND));
     }
 
+    public void deleteUser(Long userId){
+        checkIfUserExists(userId);
+
+        userRepository.deleteById(userId);
+    }
 
     private void checkIfEmailIsTaken(CreateUserRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -79,6 +84,12 @@ public class UserService {
     private void checkIfUsernameIsTaken(CreateUserRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new ApiException(USERNAME_TAKEN);
+        }
+    }
+
+    private void checkIfUserExists(Long userId) {
+        if(!userRepository.existsById(userId)){
+            throw new ApiException(USER_NOT_FOUND);
         }
     }
 }
