@@ -35,4 +35,8 @@ public class UserController {
             Pageable pageable) {
         return userService.getUsers(pageable);
     }
+    @GetMapping("/{userId}")
+    public UserResponse getUserById(@PathVariable Long userId){
+        return userService.getUserById(userId);
+    }
 }

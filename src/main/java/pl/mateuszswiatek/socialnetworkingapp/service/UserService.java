@@ -39,6 +39,12 @@ public class UserService {
         return PageConverter.toResponse(page);
     }
 
+    public UserResponse getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .map(user -> UserConverter.toResponse(user))
+                .orElseThrow(() -> new ApiException(USER_NOT_FOUND));
+    }
+
     private void checkIfEmailIsTaken(CreateUserRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new ApiException(EMAIL_TAKEN);
