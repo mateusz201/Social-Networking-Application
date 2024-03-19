@@ -5,6 +5,8 @@ import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdateUserRequest;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.UserResponse;
 import pl.mateuszswiatek.socialnetworkingapp.entity.User;
 
+import java.util.HashSet;
+
 public class UserConverter {
     public static UserResponse toResponse(User user) {
         return new UserResponse(
@@ -15,16 +17,17 @@ public class UserConverter {
         );
     }
 
-    public static User toEntity(CreateUserRequest request){
+    public static User toEntity(CreateUserRequest request) {
         return new User(
                 request.getUsername(),
                 request.getPassword(),
                 request.getEmail(),
-                null
+                null,
+                new HashSet<>()
         );
     }
 
-    public static User update(User user, UpdateUserRequest request){
+    public static User update(User user, UpdateUserRequest request) {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
 

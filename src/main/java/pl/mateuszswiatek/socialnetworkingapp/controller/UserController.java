@@ -1,6 +1,5 @@
 package pl.mateuszswiatek.socialnetworkingapp.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -36,8 +35,9 @@ public class UserController {
             Pageable pageable) {
         return userService.getUsers(pageable);
     }
+
     @GetMapping("/{userId}")
-    public UserResponse getUserById(@PathVariable Long userId){
+    public UserResponse getUserById(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
 
@@ -45,12 +45,12 @@ public class UserController {
     public UserResponse updateUser(
             @PathVariable Long userId,
             @RequestBody UpdateUserRequest request
-            ){
-        return userService.updateUser(userId,request);
+    ) {
+        return userService.updateUser(userId, request);
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable Long userId){
+    public void deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
     }
 }

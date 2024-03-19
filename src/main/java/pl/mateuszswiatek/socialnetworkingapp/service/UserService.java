@@ -42,22 +42,27 @@ public class UserService {
 
     public UserResponse getUserById(Long userId) {
         return userRepository.findById(userId)
-                .map(user -> UserConverter.toResponse(user))
+                .map(UserConverter::toResponse)
                 .orElseThrow(() -> new ApiException(USER_NOT_FOUND));
     }
 
-    public UserResponse updateUser(Long userId, UpdateUserRequest request){
+    public User getUser(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ApiException(USER_NOT_FOUND));
+    }
+
+    public UserResponse updateUser(Long userId, UpdateUserRequest request) {
         checkIfEmailIsTakenByOtherId(userId, request);
         checkIfUsernameIsTakenByOtherId(userId, request);
 
         return userRepository.findById(userId)
-                .map(user -> UserConverter.update(user,request))
+                .map(user -> UserConverter.update(user, request))
                 .map(user -> userRepository.save(user))
                 .map(UserConverter::toResponse)
-                .orElseThrow(()->new ApiException(USER_NOT_FOUND));
+                .orElseThrow(() -> new ApiException(USER_NOT_FOUND));
     }
 
-    public void deleteUser(Long userId){
+    public void deleteUser(Long userId) {
         checkIfUserExists(userId);
 
         userRepository.deleteById(userId);
@@ -70,13 +75,13 @@ public class UserService {
     }
 
     private void checkIfEmailIsTakenByOtherId(Long userId, UpdateUserRequest request) {
-        if(userRepository.existsByEmailAndIdNot(request.getEmail(), userId)){
+        if (userRepository.existsByEmailAndIdNot(request.getEmail(), userId)) {
             throw new ApiException(EMAIL_TAKEN);
         }
     }
 
     private void checkIfUsernameIsTakenByOtherId(Long userId, UpdateUserRequest request) {
-        if(userRepository.existsByUsernameAndIdNot(request.getUsername(), userId)){
+        if (userRepository.existsByUsernameAndIdNot(request.getUsername(), userId)) {
             throw new ApiException(USERNAME_TAKEN);
         }
     }
@@ -87,8 +92,8 @@ public class UserService {
         }
     }
 
-    private void checkIfUserExists(Long userId) {
-        if(!userRepository.existsById(userId)){
+    public void checkIfUserExists(Long userId) {
+        if (!userRepository.existsById(userId)) {
             throw new ApiException(USER_NOT_FOUND);
         }
     }

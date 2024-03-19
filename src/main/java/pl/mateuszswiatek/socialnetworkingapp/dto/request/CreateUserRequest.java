@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+
 @AllArgsConstructor
 @Getter
 @Setter

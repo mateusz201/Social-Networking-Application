@@ -1,8 +1,9 @@
 package pl.mateuszswiatek.socialnetworkingapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -11,9 +12,12 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class User extends BaseEntity{
+public class User extends BaseEntity {
     private String username;
     private String password;
     private String email;
     private String description;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Post> posts;
 }
