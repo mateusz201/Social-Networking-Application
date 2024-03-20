@@ -1,9 +1,13 @@
 package pl.mateuszswiatek.socialnetworkingapp.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pl.mateuszswiatek.socialnetworkingapp.converter.PageConverter;
 import pl.mateuszswiatek.socialnetworkingapp.converter.PostConverter;
 import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreatePostRequest;
+import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponse;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.PostResponse;
 import pl.mateuszswiatek.socialnetworkingapp.entity.Post;
 import pl.mateuszswiatek.socialnetworkingapp.entity.User;
@@ -21,5 +25,13 @@ public class PostService {
 
         Post savedPost = postRepository.save(post);
         return PostConverter.toResponse(savedPost);
+    }
+
+    public PageResponse<PostResponse> getPosts(Pageable pageable) {
+        Page<PostResponse> page = postRepository
+                .findAll(pageable)
+                .map(PostConverter::toResponse);
+
+        return PageConverter.toResponse(page);
     }
 }
