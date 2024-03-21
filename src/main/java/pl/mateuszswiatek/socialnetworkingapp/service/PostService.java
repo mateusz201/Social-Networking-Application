@@ -11,7 +11,10 @@ import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponse;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.PostResponse;
 import pl.mateuszswiatek.socialnetworkingapp.entity.Post;
 import pl.mateuszswiatek.socialnetworkingapp.entity.User;
+import pl.mateuszswiatek.socialnetworkingapp.exception.ApiException;
 import pl.mateuszswiatek.socialnetworkingapp.repository.PostRepository;
+
+import static pl.mateuszswiatek.socialnetworkingapp.exception.ApiExceptionReason.*;
 
 @Service
 @AllArgsConstructor
@@ -33,5 +36,11 @@ public class PostService {
                 .map(PostConverter::toResponse);
 
         return PageConverter.toResponse(page);
+    }
+
+    public PostResponse getPostById(Long postId) {
+        return postRepository.findById(postId)
+                .map(PostConverter::toResponse)
+                .orElseThrow(() -> new ApiException(POST_NOT_FOUND));
     }
 }

@@ -12,7 +12,9 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public enum ApiExceptionReason {
     USERNAME_TAKEN("Username is already taken", CONFLICT),
     EMAIL_TAKEN("Email is already taken", CONFLICT),
-    USER_NOT_FOUND("User not found", NOT_FOUND);
+    USER_NOT_FOUND("User not found", NOT_FOUND),
+
+    POST_NOT_FOUND("Post not found",NOT_FOUND);
 
     private final String message;
     private final HttpStatus status;

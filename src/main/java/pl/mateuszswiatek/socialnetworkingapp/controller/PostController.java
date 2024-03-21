@@ -34,4 +34,9 @@ public class PostController {
             Pageable pageable) {
         return postService.getPosts(pageable);
     }
+
+    @GetMapping("/{postId}")
+    public PostResponse getPostById(@PathVariable Long postId){
+        return postService.getPostById(postId);
+    }
 }
