@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreatePostRequest;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdatePostRequest;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponse;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.PostResponse;
 import pl.mateuszswiatek.socialnetworkingapp.service.PostService;
@@ -36,7 +37,15 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public PostResponse getPostById(@PathVariable Long postId){
+    public PostResponse getPostById(@PathVariable Long postId) {
         return postService.getPostById(postId);
+    }
+
+    @PutMapping("/{postId}")
+    public PostResponse updatePost(
+            @PathVariable Long postId,
+            @RequestBody @Valid UpdatePostRequest request
+    ) {
+        return postService.updatePost(postId, request);
     }
 }

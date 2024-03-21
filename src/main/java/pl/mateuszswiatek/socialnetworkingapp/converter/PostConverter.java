@@ -1,6 +1,7 @@
 package pl.mateuszswiatek.socialnetworkingapp.converter;
 
 import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreatePostRequest;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdatePostRequest;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.PostResponse;
 import pl.mateuszswiatek.socialnetworkingapp.entity.Post;
 import pl.mateuszswiatek.socialnetworkingapp.entity.User;
@@ -20,5 +21,10 @@ public class PostConverter {
                 request.getContent(),
                 user
         );
+    }
+
+    public static Post update(Post post, UpdatePostRequest request) {
+         post.setContent(request.getContent());
+         return post;
     }
 }

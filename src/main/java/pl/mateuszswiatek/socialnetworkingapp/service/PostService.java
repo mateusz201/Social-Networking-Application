@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.mateuszswiatek.socialnetworkingapp.converter.PageConverter;
 import pl.mateuszswiatek.socialnetworkingapp.converter.PostConverter;
 import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreatePostRequest;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdatePostRequest;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponse;
 import pl.mateuszswiatek.socialnetworkingapp.dto.response.PostResponse;
 import pl.mateuszswiatek.socialnetworkingapp.entity.Post;
@@ -42,5 +43,13 @@ public class PostService {
         return postRepository.findById(postId)
                 .map(PostConverter::toResponse)
                 .orElseThrow(() -> new ApiException(POST_NOT_FOUND));
+    }
+
+    public PostResponse updatePost(Long postId, UpdatePostRequest request){
+        return postRepository.findById(postId)
+                .map(post -> PostConverter.update(post,request))
+                .map(post -> postRepository.save(post))
+                .map(PostConverter::toResponse)
+                .orElseThrow(()->new ApiException(POST_NOT_FOUND));
     }
 }
