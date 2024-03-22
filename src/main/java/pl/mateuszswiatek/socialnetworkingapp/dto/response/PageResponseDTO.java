@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PageResponse<T> {
+public class PageResponseDTO<T> {
     List<T> content;
     boolean last;
     long totalPages;

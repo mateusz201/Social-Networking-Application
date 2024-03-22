@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class CreatePostRequest {
+public class CreatePostRequestDTO {
     @NotNull
     private Long userId;
     @NotEmpty

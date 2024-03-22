@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
-@Setter
 @Getter
-public class PostResponse {
+@Setter
+public class UserResponseDTO {
     private Long id;
-    private String content;
-    private LocalDateTime createdAt;
-    private UserResponse postBy;
+    private String username;
+    private String email;
+    private String description;
 }

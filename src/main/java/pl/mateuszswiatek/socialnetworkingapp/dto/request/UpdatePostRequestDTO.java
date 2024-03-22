@@ -7,7 +7,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @Getter
 @Setter
-public class UpdatePostRequest {
+public class UpdatePostRequestDTO {
     @NotEmpty
     @Size(max = 200)
     private String content;

@@ -11,10 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreatePostRequest;
-import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdatePostRequest;
-import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponse;
-import pl.mateuszswiatek.socialnetworkingapp.dto.response.PostResponse;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreatePostRequestDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdatePostRequestDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponseDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.response.PostResponseDTO;
 import pl.mateuszswiatek.socialnetworkingapp.service.PostService;
 
 @RestController
@@ -25,26 +25,26 @@ public class PostController {
     private PostService postService;
 
     @PostMapping
-    public PostResponse createPost(@RequestBody @Valid CreatePostRequest request) {
+    public PostResponseDTO createPost(@RequestBody @Valid CreatePostRequestDTO request) {
         return postService.createPost(request);
     }
 
     @GetMapping
-    public PageResponse<PostResponse> getPosts(
+    public PageResponseDTO<PostResponseDTO> getPosts(
             @PageableDefault(size = 8, sort = "createdAt", direction = Sort.Direction.DESC)
             Pageable pageable) {
         return postService.getPosts(pageable);
     }
 
     @GetMapping("/{postId}")
-    public PostResponse getPostById(@PathVariable Long postId) {
+    public PostResponseDTO getPostById(@PathVariable Long postId) {
         return postService.getPostById(postId);
     }
 
     @PutMapping("/{postId}")
-    public PostResponse updatePost(
+    public PostResponseDTO updatePost(
             @PathVariable Long postId,
-            @RequestBody @Valid UpdatePostRequest request
+            @RequestBody @Valid UpdatePostRequestDTO request
     ) {
         return postService.updatePost(postId, request);
     }

@@ -1,15 +1,15 @@
 package pl.mateuszswiatek.socialnetworkingapp.converter;
 
-import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreateUserRequest;
-import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdateUserRequest;
-import pl.mateuszswiatek.socialnetworkingapp.dto.response.UserResponse;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreateUserRequestDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdateUserRequestDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.response.UserResponseDTO;
 import pl.mateuszswiatek.socialnetworkingapp.entity.User;
 
 import java.util.HashSet;
 
 public class UserConverter {
-    public static UserResponse toResponse(User user) {
-        return new UserResponse(
+    public static UserResponseDTO toResponse(User user) {
+        return new UserResponseDTO(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
@@ -17,7 +17,7 @@ public class UserConverter {
         );
     }
 
-    public static User toEntity(CreateUserRequest request) {
+    public static User toEntity(CreateUserRequestDTO request) {
         return new User(
                 request.getUsername(),
                 request.getPassword(),
@@ -27,7 +27,7 @@ public class UserConverter {
         );
     }
 
-    public static User update(User user, UpdateUserRequest request) {
+    public static User update(User user, UpdateUserRequestDTO request) {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
 

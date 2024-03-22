@@ -6,10 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.mateuszswiatek.socialnetworkingapp.converter.PageConverter;
 import pl.mateuszswiatek.socialnetworkingapp.converter.PostConverter;
-import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreatePostRequest;
-import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdatePostRequest;
-import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponse;
-import pl.mateuszswiatek.socialnetworkingapp.dto.response.PostResponse;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreatePostRequestDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdatePostRequestDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponseDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.response.PostResponseDTO;
 import pl.mateuszswiatek.socialnetworkingapp.entity.Post;
 import pl.mateuszswiatek.socialnetworkingapp.entity.User;
 import pl.mateuszswiatek.socialnetworkingapp.exception.ApiException;
@@ -23,7 +23,7 @@ public class PostService {
     private PostRepository postRepository;
     private UserService userService;
 
-    public PostResponse createPost(CreatePostRequest request) {
+    public PostResponseDTO createPost(CreatePostRequestDTO request) {
         User user = userService.getUser(request.getUserId());
         Post post = PostConverter.toEntity(request, user);
 
@@ -31,21 +31,21 @@ public class PostService {
         return PostConverter.toResponse(savedPost);
     }
 
-    public PageResponse<PostResponse> getPosts(Pageable pageable) {
-        Page<PostResponse> page = postRepository
+    public PageResponseDTO<PostResponseDTO> getPosts(Pageable pageable) {
+        Page<PostResponseDTO> page = postRepository
                 .findAll(pageable)
                 .map(PostConverter::toResponse);
 
         return PageConverter.toResponse(page);
     }
 
-    public PostResponse getPostById(Long postId) {
+    public PostResponseDTO getPostById(Long postId) {
         return postRepository.findById(postId)
                 .map(PostConverter::toResponse)
                 .orElseThrow(() -> new ApiException(POST_NOT_FOUND));
     }
 
-    public PostResponse updatePost(Long postId, UpdatePostRequest request){
+    public PostResponseDTO updatePost(Long postId, UpdatePostRequestDTO request){
         return postRepository.findById(postId)
                 .map(post -> PostConverter.update(post,request))
                 .map(post -> postRepository.save(post))

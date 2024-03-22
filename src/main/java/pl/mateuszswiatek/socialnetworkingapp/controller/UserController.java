@@ -9,10 +9,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreateUserRequest;
-import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdateUserRequest;
-import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponse;
-import pl.mateuszswiatek.socialnetworkingapp.dto.response.UserResponse;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.CreateUserRequestDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.request.UpdateUserRequestDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.response.PageResponseDTO;
+import pl.mateuszswiatek.socialnetworkingapp.dto.response.UserResponseDTO;
 import pl.mateuszswiatek.socialnetworkingapp.service.UserService;
 
 @RestController
@@ -23,28 +23,28 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(
-            @RequestBody @Valid CreateUserRequest request
+    public ResponseEntity<UserResponseDTO> createUser(
+            @RequestBody @Valid CreateUserRequestDTO request
     ) {
         return new ResponseEntity<>(userService.createUser(request), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public PageResponse<UserResponse> getUsers(
+    public PageResponseDTO<UserResponseDTO> getUsers(
             @PageableDefault(size = 8, sort = "username", direction = Sort.Direction.ASC)
             Pageable pageable) {
         return userService.getUsers(pageable);
     }
 
     @GetMapping("/{userId}")
-    public UserResponse getUserById(@PathVariable Long userId) {
+    public UserResponseDTO getUserById(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
 
     @PutMapping("/{userId}")
-    public UserResponse updateUser(
+    public UserResponseDTO updateUser(
             @PathVariable Long userId,
-            @RequestBody @Valid UpdateUserRequest request
+            @RequestBody @Valid UpdateUserRequestDTO request
     ) {
         return userService.updateUser(userId, request);
     }
