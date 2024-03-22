@@ -52,4 +52,16 @@ public class PostService {
                 .map(PostConverter::toResponse)
                 .orElseThrow(()->new ApiException(POST_NOT_FOUND));
     }
+
+    public void deletePost(Long postId){
+        checkIfPostExistsById(postId);
+
+        postRepository.deleteById(postId);
+    }
+
+    private void checkIfPostExistsById(Long postId) {
+        if(!postRepository.existsById(postId)){
+            throw new ApiException(POST_NOT_FOUND);
+        }
+    }
 }
